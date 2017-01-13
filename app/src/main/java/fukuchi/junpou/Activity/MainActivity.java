@@ -94,7 +94,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            //対応する設定画面を表示
             case R.id.action_settings:
                 return true;
             case R.id.basic_info:
