@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">旬報アプリ(β)</string>
+    <string name="action_settings">設定</string>
+    <string name="basic_info_settings">基本情報設定</string>
+    <string name="attendance">出社</string>
+    <string name="leaving_office">退社</string>
+    <string name="break_time">休憩時間</string>
+    <string name="deep_night_break_time">深夜休憩</string>
+
+    <string-array name="paid_time_array">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+    </string-array>
+</resources>
