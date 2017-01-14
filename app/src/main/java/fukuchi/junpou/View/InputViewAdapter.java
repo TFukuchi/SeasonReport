@@ -1,4 +1,4 @@
-package fukuchi.junpou;
+package fukuchi.junpou.View;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -17,7 +17,7 @@ import java.util.Map;
 import fukuchi.junpou.Controller.TextWatcherImpl;
 import fukuchi.junpou.Model.DateData;
 import fukuchi.junpou.Model.DateDetailsContainer;
-import fukuchi.junpou.View.PaidTimeSpinnerAdapter;
+import fukuchi.junpou.R;
 
 public class InputViewAdapter extends RecyclerView.Adapter<InputViewHolder> {
 
@@ -111,6 +111,7 @@ public class InputViewAdapter extends RecyclerView.Adapter<InputViewHolder> {
 
     private void setNote(final InputViewHolder viewHolder, DateData data) {
         String note = data.getHolidayText();
+        android.util.Log.v("Fukuchi","setNote / " + note);
         viewHolder.mNoteTextView.setText(note);
     }
 
@@ -145,7 +146,6 @@ public class InputViewAdapter extends RecyclerView.Adapter<InputViewHolder> {
 
     private void setDataForLayout(final InputViewHolder viewHolder, DateData data) {
         viewHolder.mPlanAttendance.setText(data.getPlanAttend());
-        android.util.Log.v("Fukuchi", "setText = " + data.getPlanAttend());
         viewHolder.mPlanLeaveTime.setText(data.getPlanLeave());
         viewHolder.mPlanBreakTime.setText(data.getPlanBreakTime());
         viewHolder.mRealAttendance.setText(data.getRealAttend());

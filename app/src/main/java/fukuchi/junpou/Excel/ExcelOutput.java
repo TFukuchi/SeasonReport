@@ -19,10 +19,9 @@ import java.util.List;
 import fukuchi.junpou.Model.BasicInfoData;
 import fukuchi.junpou.Model.DateData;
 import fukuchi.junpou.Model.DateDetailsContainer;
-import fukuchi.junpou.Model.JunpouValues;
+import fukuchi.junpou.Util.JunpouValues;
 import fukuchi.junpou.Util.JunpouUtil;
 
-import static fukuchi.junpou.Util.JunpouUtil.booleanToStringConverter;
 import static fukuchi.junpou.Util.JunpouUtil.calDeepWorkingTime;
 import static fukuchi.junpou.Util.JunpouUtil.calDiffTime;
 import static fukuchi.junpou.Util.JunpouUtil.calSumTime;

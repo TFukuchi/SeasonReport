@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fukuchi.junpou.Model.DateDetailsContainer;
-import fukuchi.junpou.Model.JunpouPattern;
 import fukuchi.junpou.Util.JunpouUtil;
 import fukuchi.junpou.Util.LogUtil;
 

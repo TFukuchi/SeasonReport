@@ -14,7 +14,7 @@ import java.util.TreeSet;
 
 import fukuchi.junpou.Model.DateData;
 import fukuchi.junpou.Util.LogUtil;
-import fukuchi.junpou.Model.JunpouPattern;
+import fukuchi.junpou.Util.JunpouPattern;
 
 import static fukuchi.junpou.Util.JunpouUtil.createId;
 import static fukuchi.junpou.Util.JunpouUtil.formatSeasonText;

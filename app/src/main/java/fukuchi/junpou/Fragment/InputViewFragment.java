@@ -20,13 +20,13 @@ import java.util.TreeSet;
 
 import fukuchi.junpou.DataBase.DataDetailDbWriteHelper;
 import fukuchi.junpou.DataBase.InputValueDbWriteHelper;
-import fukuchi.junpou.InputViewAdapter;
+import fukuchi.junpou.View.InputViewAdapter;
 import fukuchi.junpou.Model.DateDetailsContainer;
 import fukuchi.junpou.R;
 import fukuchi.junpou.View.RecyclerViewDecoration;
 import fukuchi.junpou.View.SeasonSpinnerAdapter;
 import fukuchi.junpou.Model.DateData;
-import fukuchi.junpou.Model.JunpouPattern;
+import fukuchi.junpou.Util.JunpouPattern;
 
 public class InputViewFragment extends Fragment {
 

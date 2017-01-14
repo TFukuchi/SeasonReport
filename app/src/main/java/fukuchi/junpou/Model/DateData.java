@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.view.View;
 
 import ajd4jp.Week;
+import fukuchi.junpou.Util.JunpouValues;
 import fukuchi.junpou.Util.PublicVariable;
 
 public class DateData {
@@ -82,7 +83,6 @@ public class DateData {
     }
 
     public void setPlanAttend(@Nullable String val) {
-        android.util.Log.v("Fukuchi", "setPlanAttend : " + val);
         mPlanAttend = val != null ? val : "";
     }
 
@@ -111,7 +111,10 @@ public class DateData {
     }
 
     public void setHolidayFlag(@Nullable String val) {
-        mHolidayText = val != null ? val : "";
+        if (val == null || val.isEmpty()) {
+            return;
+        }
+        mHolidayText = val;
     }
 
     public void setWorkContent(@Nullable String val) {

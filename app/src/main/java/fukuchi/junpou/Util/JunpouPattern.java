@@ -1,4 +1,4 @@
-package fukuchi.junpou.Model;
+package fukuchi.junpou.Util;
 
 import android.content.Context;
 import android.support.annotation.IntDef;
@@ -15,6 +15,9 @@ import ajd4jp.Month;
 import fukuchi.junpou.DataBase.DataContainer;
 import fukuchi.junpou.DataBase.DataDetailDbWriteHelper;
 import fukuchi.junpou.DataBase.InputValueDbWriteHelper;
+import fukuchi.junpou.Model.CandoHoliday;
+import fukuchi.junpou.Model.DateData;
+import fukuchi.junpou.Model.DateDetailsContainer;
 
 import static fukuchi.junpou.Util.JunpouUtil.createId;
 
@@ -138,6 +141,9 @@ public class JunpouPattern {
             return null;
         }
 
+        CandoHoliday candoHolidayContainer = new CandoHoliday(year, month);
+        List<AJD> candoHolidayList = candoHolidayContainer.getCandoHoliday();
+
         List<DateData> result = new ArrayList<>();
 
         for (AJD ajd : mon.getDays()) {
@@ -150,6 +156,11 @@ public class JunpouPattern {
                 String note = null;
                 if (holiday != null) {
                     note = holiday.getName(ajd);
+                }
+                for (AJD candoHoliday : candoHolidayList) {
+                    if (JunpouUtil.isSameDayAJDChecker(ajd, candoHoliday)) {
+                        note = "Cando休日";
+                    }
                 }
 
                 result.add(new DateData(ajd.getMonth() + "/" + day, ajd.getWeek(),

@@ -12,12 +12,11 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import fukuchi.junpou.BasicInfo.BasicInfoActivity;
 import fukuchi.junpou.DataBase.InputValueDbOpenHelper;
 import fukuchi.junpou.Fragment.CompleteDialogFragment;
 import fukuchi.junpou.Fragment.InputViewFragment;
 import fukuchi.junpou.Excel.ExcelOutput;
-import fukuchi.junpou.Model.JunpouPattern;
+import fukuchi.junpou.Util.JunpouPattern;
 import fukuchi.junpou.R;
 
 public class MainActivity extends AppCompatActivity {

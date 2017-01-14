@@ -3,10 +3,7 @@ package fukuchi.junpou.Util;
 
 import android.support.annotation.NonNull;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-
-import fukuchi.junpou.Model.JunpouPattern;
+import ajd4jp.AJD;
 
 public class JunpouUtil {
 
@@ -120,9 +117,9 @@ public class JunpouUtil {
         int targetHour = workHour - breakHour;
 
         int targetMinute = 0;
-        if(workMinute > breakMinute){
+        if (workMinute > breakMinute) {
             targetMinute = workMinute - breakMinute;
-        }else if(workMinute < breakMinute){
+        } else if (workMinute < breakMinute) {
             targetHour--;
             int hoge = breakMinute - workMinute;
             targetMinute = 60 - hoge;
@@ -268,5 +265,11 @@ public class JunpouUtil {
 
     public static boolean stringToBooleanConverter(@NonNull String value) {
         return value.equals("true");
+    }
+
+    public static boolean isSameDayAJDChecker(AJD base, AJD target) {
+        return (base.getYear() == target.getYear() &&
+                base.getMonth() == target.getMonth() &&
+                base.getDay() == target.getDay());
     }
 }

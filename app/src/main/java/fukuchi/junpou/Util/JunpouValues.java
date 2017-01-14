@@ -1,4 +1,4 @@
-package fukuchi.junpou.Model;
+package fukuchi.junpou.Util;
 
 import android.content.Context;
 
@@ -7,11 +7,12 @@ import java.util.List;
 import java.util.Map;
 
 import fukuchi.junpou.DataBase.InputValueDbWriteHelper;
+import fukuchi.junpou.Util.JunpouPattern;
 import fukuchi.junpou.Util.JunpouUtil;
 
-import static fukuchi.junpou.Model.JunpouPattern.FIRST_SEASON_NUM;
-import static fukuchi.junpou.Model.JunpouPattern.SECOND_SEASON_NUM;
-import static fukuchi.junpou.Model.JunpouPattern.THIRD_SEASON_NUM;
+import static fukuchi.junpou.Util.JunpouPattern.FIRST_SEASON_NUM;
+import static fukuchi.junpou.Util.JunpouPattern.SECOND_SEASON_NUM;
+import static fukuchi.junpou.Util.JunpouPattern.THIRD_SEASON_NUM;
 
 public class JunpouValues {
 

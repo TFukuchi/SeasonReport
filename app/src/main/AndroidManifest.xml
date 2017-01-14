@@ -23,7 +23,7 @@
         </activity>
 
         <activity
-            android:name=".BasicInfo.BasicInfoActivity"
+            android:name=".Activity.BasicInfoActivity"
             android:label="@string/basic_info_settings"
             android:theme="@style/AppTheme.NoActionBar"/>
     </application>

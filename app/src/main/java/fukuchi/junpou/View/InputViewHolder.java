@@ -1,4 +1,4 @@
-package fukuchi.junpou;
+package fukuchi.junpou.View;
 
 import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
@@ -8,6 +8,8 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import fukuchi.junpou.R;
 
 public class InputViewHolder extends RecyclerView.ViewHolder {
 

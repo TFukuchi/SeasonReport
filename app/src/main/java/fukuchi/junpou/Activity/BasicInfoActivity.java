@@ -1,4 +1,4 @@
-package fukuchi.junpou.BasicInfo;
+package fukuchi.junpou.Activity;
 
 import android.content.Context;
 import android.content.SharedPreferences;
