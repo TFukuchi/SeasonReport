@@ -13,7 +13,7 @@ import fukuchi.junpou.Model.DateDetailsContainer;
 import fukuchi.junpou.Util.JunpouUtil;
 import fukuchi.junpou.Util.LogUtil;
 
-public class DataDetailDbWriteHelper {
+public class DataDetailDbWriteHelper extends JunpouDbWriteHelperBase {
 
     private final InputValueDbOpenHelper mOpenHelper;
     private final Context mContext;
@@ -44,18 +44,7 @@ public class DataDetailDbWriteHelper {
     }
 
     public void upsert(List<ContentValues> valueList) {
-        for (ContentValues values : valueList) {
-            SQLiteDatabase db = mOpenHelper.getWritableDatabase();
-            try {
-                db.insertWithOnConflict(DataDetailDbColumns.TABLE_NAME, null, values, SQLiteDatabase.CONFLICT_REPLACE);
-            } catch (SQLiteException e) {
-                LogUtil.Log("insert", e.getMessage());
-            } finally {
-                if (db != null && db.isOpen()) {
-                    db.close();
-                }
-            }
-        }
+        super.upsert(valueList, mContext, DataDetailDbColumns.TABLE_NAME);
     }
 
     /**

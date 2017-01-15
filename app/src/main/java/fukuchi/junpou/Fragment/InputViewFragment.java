@@ -4,6 +4,8 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.StringDef;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,6 +14,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import java.util.ArrayList;
@@ -24,7 +27,6 @@ import fukuchi.junpou.View.InputViewAdapter;
 import fukuchi.junpou.Model.DateDetailsContainer;
 import fukuchi.junpou.R;
 import fukuchi.junpou.View.RecyclerViewDecoration;
-import fukuchi.junpou.View.SeasonSpinnerAdapter;
 import fukuchi.junpou.Model.DateData;
 import fukuchi.junpou.Util.JunpouPattern;
 
@@ -87,8 +89,9 @@ public class InputViewFragment extends Fragment {
         Spinner mSeasonSpinner = (Spinner) mView.findViewById(R.id.season_spinner);
 
         TreeSet<String> seasonArray = mWriterHelper.seasonQuery();
-        mSeasonSpinner.setAdapter(SeasonSpinnerAdapter.getSpinnerAdapter(
-                getContext().getApplicationContext(), seasonArray));
+        SeasonSpinnerAdapter seasonSpinnerAdapter =
+                new SeasonSpinnerAdapter(getContext().getApplicationContext(), seasonArray);
+        mSeasonSpinner.setAdapter(seasonSpinnerAdapter.getSpinnerAdapter());
         mSeasonSpinner.setSelection(seasonArray.size() - 1);
         mSeasonSpinner.setOnTouchListener(mTouchListener);
 
@@ -182,6 +185,26 @@ public class InputViewFragment extends Fragment {
         protected void onPostExecute(Void result) {
             //if implements this
             // must be dead check UIThread.
+        }
+    }
+
+    private class SeasonSpinnerAdapter {
+
+        private final Context mContext;
+        private final TreeSet<String> mSpinnerItemSet;
+
+        public SeasonSpinnerAdapter(@NonNull Context context, TreeSet<String> spinnerItemSet) {
+            mContext = context;
+            mSpinnerItemSet = spinnerItemSet;
+        }
+
+        ArrayAdapter getSpinnerAdapter() {
+            ArrayAdapter adapter = new ArrayAdapter(mContext, R.layout.spinner_layout);
+            for (String spinnerItem : mSpinnerItemSet) {
+                adapter.add(spinnerItem);
+            }
+            adapter.setDropDownViewResource(R.layout.spinner_list_layout);
+            return adapter;
         }
     }
 }

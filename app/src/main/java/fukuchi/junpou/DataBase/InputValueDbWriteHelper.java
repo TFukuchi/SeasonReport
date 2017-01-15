@@ -20,7 +20,7 @@ import static fukuchi.junpou.Util.JunpouUtil.createId;
 import static fukuchi.junpou.Util.JunpouUtil.formatSeasonText;
 import static fukuchi.junpou.Util.JunpouUtil.getTotalWorkingTime;
 
-public class InputValueDbWriteHelper {
+public class InputValueDbWriteHelper extends JunpouDbWriteHelperBase{
 
     private final InputValueDbOpenHelper mOpenHelper;
     private final Context mContext;
@@ -59,23 +59,9 @@ public class InputValueDbWriteHelper {
     }
 
     public void upsert(List<ContentValues> valueList) {
-        for (ContentValues values : valueList) {
-            SQLiteDatabase db = mOpenHelper.getWritableDatabase();
-            try {
-                db.insertWithOnConflict(InputValueDbColumns.TABLE_NAME, null, values, SQLiteDatabase.CONFLICT_REPLACE);
-            } catch (SQLiteException e) {
-                LogUtil.Log("insert", e.getMessage());
-            } finally {
-                if (db != null && db.isOpen()) {
-                    db.close();
-                }
-            }
-        }
+        super.upsert(valueList, mContext, InputValueDbColumns.TABLE_NAME);
     }
 
-    // カラムIdと日付だけ取得している。
-    // 用途としては、スピナーに何旬かを設定するためにDatabaseに登録されている、
-    // 日付をすべて取得してくる
     public TreeSet<String> seasonQuery() {
 
         TreeSet<String> seasonSet = new TreeSet<>();
@@ -108,11 +94,6 @@ public class InputValueDbWriteHelper {
         return seasonSet;
     }
 
-    // Excelに出力する際に使用する
-    // 渡されてきた月と旬から、該当する日付を取得して、勤務時間を返す
-    // つまるところ用途としては、現在の月と旬を渡すのではなく、
-    // ここを呼び出す前に、必要な旬と月を計算してここを呼び出す。
-    // で、ここはIDをkeyとしたdayを返すので、そこで計算する
     public Map<String, String> workTimeQuery(int year, int month,
                                              @JunpouPattern.SeasonNumber int season) {
 
