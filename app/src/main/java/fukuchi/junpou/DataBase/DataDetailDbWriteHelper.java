@@ -4,27 +4,21 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteException;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import fukuchi.junpou.Model.DateDetailsContainer;
 import fukuchi.junpou.Util.JunpouUtil;
-import fukuchi.junpou.Util.LogUtil;
 
 public class DataDetailDbWriteHelper extends JunpouDbWriteHelperBase {
 
-    private final InputValueDbOpenHelper mOpenHelper;
-    private final Context mContext;
-
     public DataDetailDbWriteHelper(Context context) {
-        mOpenHelper = new InputValueDbOpenHelper(context);
-        mContext = context;
+        super(context);
     }
 
     //put Data
-    public static ContentValues createContentValue(String id, String date, boolean paidHolidayFlag,
+    public ContentValues createContentValue(String id, String date, boolean paidHolidayFlag,
                                                    String paidTime, boolean transferWorkFlag,
                                                    boolean flexFlag, boolean holidayWork) {
         ContentValues values = new ContentValues();

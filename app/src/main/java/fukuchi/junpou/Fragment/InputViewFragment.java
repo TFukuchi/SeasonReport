@@ -5,7 +5,6 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.StringDef;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -35,7 +34,7 @@ public class InputViewFragment extends Fragment {
     public RecyclerView mInputRecyclerView;
     private InputViewAdapter mInputViewAdapter;
     private InputValueDbWriteHelper mWriterHelper;
-    private DataDetailDbWriteHelper mDetaileWriteHelper;
+    private DataDetailDbWriteHelper mDetailWriteHelper;
     private View mView;
     private JunpouPattern mPattern;
     private Context mContext;
@@ -64,12 +63,21 @@ public class InputViewFragment extends Fragment {
                 }
             };
 
+    private JunpouPattern.OnDataQueryListener mDataQueryListener =
+            new JunpouPattern.OnDataQueryListener() {
+                @Override
+                public void onDataQueryFinished(List<DateData> data) {
+                    mInputViewAdapter = new InputViewAdapter(mContext, data);
+                    mInputRecyclerView.setAdapter(mInputViewAdapter);
+                }
+            };
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContext = getContext().getApplicationContext();
         mWriterHelper = new InputValueDbWriteHelper(mContext);
-        mDetaileWriteHelper = new DataDetailDbWriteHelper(mContext);
+        mDetailWriteHelper = new DataDetailDbWriteHelper(mContext);
         mPattern = new JunpouPattern(mContext);
     }
 
@@ -115,13 +123,10 @@ public class InputViewFragment extends Fragment {
 
     private void createInputRecyclerView(int year, int month, List<Integer> targetDayList) {
         if (year == -1 || month == -1 || targetDayList.isEmpty()) {
-            mInputViewAdapter = new InputViewAdapter(mContext,
-                    getShowDateList(-1, -1, new ArrayList<Integer>()));
+            mPattern.getDateData(mContext, mDataQueryListener);
         } else {
-            mInputViewAdapter = new InputViewAdapter(mContext,
-                    getShowDateList(year, month, targetDayList));
+            mPattern.getDateData(mContext, year, month, targetDayList, mDataQueryListener);
         }
-        mInputRecyclerView.setAdapter(mInputViewAdapter);
     }
 
     private void setDB() {
@@ -129,16 +134,16 @@ public class InputViewFragment extends Fragment {
         List<ContentValues> dateDetailValuesList = new ArrayList<>();
         List<DateData> dataList = createDataList();
         for (DateData dateData : dataList) {
-            dateValuesList.add(InputValueDbWriteHelper.createContentValue(dateData));
+            dateValuesList.add(mWriterHelper.createContentValue(dateData));
             DateDetailsContainer container = dateData.getDetailContainer();
-            dateDetailValuesList.add(DataDetailDbWriteHelper.createContentValue(dateData.getId(),
+            dateDetailValuesList.add(mDetailWriteHelper.createContentValue(dateData.getId(),
                     dateData.getDay(), container.getPaidHolidayFrag(), container.getPaidTime(),
                     container.getTransferWorkFlag(), container.getFlex(),
                     container.getHolidayWorkFlag()));
         }
 
         mWriterHelper.upsert(dateValuesList);
-        mDetaileWriteHelper.upsert(dateDetailValuesList);
+        mDetailWriteHelper.upsert(dateDetailValuesList);
     }
 
     private List<DateData> createDataList() {
@@ -148,17 +153,6 @@ public class InputViewFragment extends Fragment {
             res.add(mInputViewAdapter.getDateData(i));
         }
         return res;
-    }
-
-    private List<DateData> getShowDateList(int year, int month, List<Integer> targetDayList) {
-        List<DateData> showDateList;
-        if (year == -1 || month == -1 || targetDayList.isEmpty()) {
-            showDateList = mPattern.getDateData(mContext);
-        } else {
-            showDateList = mPattern.getDateData(mContext, year, month, targetDayList);
-        }
-
-        return showDateList;
     }
 
     //2016年 12月 3旬

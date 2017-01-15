@@ -73,7 +73,8 @@ public class JunpouValues {
                 }
             }
 
-            @JunpouPattern.SeasonNumber int season = FIRST_SEASON_NUM;
+            @JunpouPattern.SeasonNumber
+            int season = FIRST_SEASON_NUM;
             if (target == 1) {
                 season = FIRST_SEASON_NUM;
             } else if (target == 2) {

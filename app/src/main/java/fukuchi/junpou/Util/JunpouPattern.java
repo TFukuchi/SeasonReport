@@ -1,6 +1,7 @@
 package fukuchi.junpou.Util;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 
@@ -15,7 +16,6 @@ import ajd4jp.Month;
 import fukuchi.junpou.DataBase.DataContainer;
 import fukuchi.junpou.DataBase.DataDetailDbWriteHelper;
 import fukuchi.junpou.DataBase.InputValueDbWriteHelper;
-import fukuchi.junpou.Model.CandoHoliday;
 import fukuchi.junpou.Model.DateData;
 import fukuchi.junpou.Model.DateDetailsContainer;
 
@@ -59,6 +59,10 @@ public class JunpouPattern {
         for (int i : THIRD_SEASON) {
             THIRD_SEASON_LIST.add(i);
         }
+    }
+
+    public interface OnDataQueryListener {
+        void onDataQueryFinished(List<DateData> data);
     }
 
     public JunpouPattern(Context context) {
@@ -119,16 +123,17 @@ public class JunpouPattern {
         return FIRST_SEASON_NUM;
     }
 
-    public List<DateData> getDateData(Context context) {
+    public void getDateData(Context context, OnDataQueryListener listener) {
         Calendar cal = Calendar.getInstance();
         int year = cal.get(Calendar.YEAR);
         int month = cal.get(Calendar.MONTH) + 1;
         List<Integer> currentSeason = getSeasonListFromDay(cal);
-        return getDateData(context, year, month, currentSeason);
+        getDateData(context, year, month, currentSeason, listener);
     }
 
-    public List<DateData> getDateData(Context context, int year, int month,
-                                      @NonNull List<Integer> targetList) {
+    public void getDateData(Context context, int year, int month,
+                            @NonNull List<Integer> targetList,
+                            OnDataQueryListener listener) {
 
         Month mon = null;
         try {
@@ -137,14 +142,10 @@ public class JunpouPattern {
             e.printStackTrace();
         }
 
-        if (mon == null) {
-            return null;
-        }
-
         CandoHoliday candoHolidayContainer = new CandoHoliday(year, month);
         List<AJD> candoHolidayList = candoHolidayContainer.getCandoHoliday();
 
-        List<DateData> result = new ArrayList<>();
+        List<DateData> dateDataList = new ArrayList<>();
 
         for (AJD ajd : mon.getDays()) {
             JunpouValues junpouValues = new JunpouValues(ajd.getYear(), ajd.getMonth(),
@@ -163,50 +164,67 @@ public class JunpouPattern {
                     }
                 }
 
-                result.add(new DateData(ajd.getMonth() + "/" + day, ajd.getWeek(),
+                dateDataList.add(new DateData(ajd.getMonth() + "/" + day, ajd.getWeek(),
                         note, context, createId(year, month, day), junpouValues,
                         new DateDetailsContainer()));
             }
         }
 
-        //今後、detaildatacontainerにはgetDateListByDbでデータを入れる
-        // FIXME : Change to the workerThread
-        getDateListByDb(context, result);
-
-        return result;
+        DateDataQueryTask queryTask = new DateDataQueryTask(context, dateDataList, listener);
+        queryTask.execute();
     }
 
-    private void getDateListByDb(Context context, List<DateData> dateDataList) {
-        InputValueDbWriteHelper writer = new InputValueDbWriteHelper(context);
-        List<String> dateList = new ArrayList<>();
-        for (DateData dateData : dateDataList) {
-            dateList.add(dateData.getId());
+    private class DateDataQueryTask extends AsyncTask<Void, Void, List<DateData>> {
+
+        private final Context mContext;
+        private final List<DateData> mDateDataList;
+        private final OnDataQueryListener mListener;
+
+        DateDataQueryTask(Context context, List<DateData> dateDataList, OnDataQueryListener listener) {
+            mContext = context;
+            mDateDataList = dateDataList;
+            mListener = listener;
         }
-        List<DataContainer> entities = writer.dateDataQuery(dateList);
 
-        DataDetailDbWriteHelper detailWriter = new DataDetailDbWriteHelper(context);
-        List<DateDetailsContainer> detailEntities = detailWriter.dataDetailQuery(dateList);
+        @Override
+        protected List<DateData> doInBackground(Void... params) {
+            InputValueDbWriteHelper writer = new InputValueDbWriteHelper(mContext);
+            List<String> dateList = new ArrayList<>();
+            for (DateData dateData : mDateDataList) {
+                dateList.add(dateData.getId());
+            }
+            List<DataContainer> entities = writer.dateDataQuery(dateList);
 
-        for (DataContainer entity : entities) {
-            for (DateData dateData : dateDataList) {
-                if (entity.getDate().equals(dateData.getDay())) {
-                    dateData.setPlanAttend(entity.getPlanAttend());
-                    dateData.setPlanLeave(entity.getPlanLeaves());
-                    dateData.setPlanBreakTime(entity.getPlanBreakTime());
-                    dateData.setRealAttend(entity.getRealAttend());
-                    dateData.setRealLeave(entity.getRealLeaves());
-                    dateData.setRealBreakTime(entity.getRealBreakTime());
-                    dateData.setDeepNightBreakTime(entity.getDeepNightBreakTime());
-                    dateData.setHolidayFlag(entity.getHolidayFlag());
-                    dateData.setWorkContent(entity.getWorkContent());
+            DataDetailDbWriteHelper detailWriter = new DataDetailDbWriteHelper(mContext);
+            List<DateDetailsContainer> detailEntities = detailWriter.dataDetailQuery(dateList);
 
-                    for (DateDetailsContainer container : detailEntities) {
-                        if (container.getDate().equals(dateData.getDay())) {
-                            dateData.setDateDetailContainer(container);
+            for (DataContainer entity : entities) {
+                for (DateData dateData : mDateDataList) {
+                    if (entity.getDate().equals(dateData.getDay())) {
+                        dateData.setPlanAttend(entity.getPlanAttend());
+                        dateData.setPlanLeave(entity.getPlanLeaves());
+                        dateData.setPlanBreakTime(entity.getPlanBreakTime());
+                        dateData.setRealAttend(entity.getRealAttend());
+                        dateData.setRealLeave(entity.getRealLeaves());
+                        dateData.setRealBreakTime(entity.getRealBreakTime());
+                        dateData.setDeepNightBreakTime(entity.getDeepNightBreakTime());
+                        dateData.setHolidayFlag(entity.getHolidayFlag());
+                        dateData.setWorkContent(entity.getWorkContent());
+
+                        for (DateDetailsContainer container : detailEntities) {
+                            if (container.getDate().equals(dateData.getDay())) {
+                                dateData.setDateDetailContainer(container);
+                            }
                         }
                     }
                 }
             }
+            return mDateDataList;
+        }
+
+        @Override
+        protected void onPostExecute(List<DateData> param) {
+            mListener.onDataQueryFinished(param);
         }
     }
 }

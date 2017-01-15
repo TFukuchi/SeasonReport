@@ -8,8 +8,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -111,7 +113,6 @@ public class InputViewAdapter extends RecyclerView.Adapter<InputViewHolder> {
 
     private void setNote(final InputViewHolder viewHolder, DateData data) {
         String note = data.getHolidayText();
-        android.util.Log.v("Fukuchi","setNote / " + note);
         viewHolder.mNoteTextView.setText(note);
     }
 
@@ -161,8 +162,8 @@ public class InputViewAdapter extends RecyclerView.Adapter<InputViewHolder> {
     }
 
     private void setPaidTimeSpinner(final InputViewHolder viewHolder, DateData data) {
-        viewHolder.mPaidTimeSpinner.setAdapter(PaidTimeSpinnerAdapter.getSpinnerAdapter(
-                mContext));
+        PaidTimeSpinnerAdapter spinnerAdapter = new PaidTimeSpinnerAdapter(mContext);
+        viewHolder.mPaidTimeSpinner.setAdapter(spinnerAdapter.getSpinnerAdapter());
         viewHolder.mPaidTimeSpinner.setSelection(Integer.valueOf(
                 data.getDetailContainer().getPaidTime()));
     }
@@ -337,4 +338,28 @@ public class InputViewAdapter extends RecyclerView.Adapter<InputViewHolder> {
             }
         });
     }
+
+    private class PaidTimeSpinnerAdapter {
+
+        private final Context mContext;
+
+        public PaidTimeSpinnerAdapter(@NonNull Context context){
+            mContext = context;
+        }
+
+        ArrayAdapter getSpinnerAdapter() {
+            ArrayAdapter adapter = new ArrayAdapter(mContext, R.layout.paid_time_spinner_layout);
+
+            String[] stringArray = mContext.getResources().getStringArray(R.array.paid_time_array);
+            List<String> spinnerList = Arrays.asList(stringArray);
+            for (String item : spinnerList) {
+                adapter.add(item);
+            }
+
+            adapter.setDropDownViewResource(R.layout.paid_time_spinner_layout);
+
+            return adapter;
+        }
+    }
+
 }

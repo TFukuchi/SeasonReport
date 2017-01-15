@@ -4,36 +4,26 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeSet;
 
 import fukuchi.junpou.Model.DateData;
-import fukuchi.junpou.Util.LogUtil;
 import fukuchi.junpou.Util.JunpouPattern;
 
 import static fukuchi.junpou.Util.JunpouUtil.createId;
-import static fukuchi.junpou.Util.JunpouUtil.formatSeasonText;
 import static fukuchi.junpou.Util.JunpouUtil.getTotalWorkingTime;
 
 public class InputValueDbWriteHelper extends JunpouDbWriteHelperBase{
 
-    private final InputValueDbOpenHelper mOpenHelper;
-    private final Context mContext;
-    private final JunpouPattern mPattern;
-
     public InputValueDbWriteHelper(Context context) {
-        mOpenHelper = new InputValueDbOpenHelper(context);
-        mContext = context;
-        mPattern = new JunpouPattern(context);
+        super(context);
     }
 
     //put Data
-    public static ContentValues createContentValue(DateData dateData) {
+    public ContentValues createContentValue(DateData dateData) {
         String realAttend = dateData.getRealAttend();
         String realLeaves = dateData.getRealLeave();
         String realBreakTime = dateData.getRealBreakTime();
@@ -62,38 +52,6 @@ public class InputValueDbWriteHelper extends JunpouDbWriteHelperBase{
         super.upsert(valueList, mContext, InputValueDbColumns.TABLE_NAME);
     }
 
-    public TreeSet<String> seasonQuery() {
-
-        TreeSet<String> seasonSet = new TreeSet<>();
-
-        Cursor cursor = null;
-        SQLiteDatabase db = mOpenHelper.getReadableDatabase();
-
-        String[] targetColumn = new String[]{InputValueDbColumns.COLUMN_ID,
-                InputValueDbColumns.COLUMN_DATE};
-
-        try {
-            cursor = db.query(InputValueDbColumns.TABLE_NAME, targetColumn, null, null, null, null,
-                    null);
-            while (cursor != null && cursor.moveToNext()) {
-                String id = cursor.getString(
-                        cursor.getColumnIndex(InputValueDbColumns.COLUMN_ID));
-                String date = cursor.getString(
-                        cursor.getColumnIndex(InputValueDbColumns.COLUMN_DATE));
-
-                String seasonText = formatSeasonText(id, date, mPattern);
-                seasonSet.add(seasonText);
-            }
-        } finally {
-            if (cursor != null) {
-                cursor.close();
-                cursor = null;
-            }
-        }
-
-        return seasonSet;
-    }
-
     public Map<String, String> workTimeQuery(int year, int month,
                                              @JunpouPattern.SeasonNumber int season) {
 
@@ -101,7 +59,7 @@ public class InputValueDbWriteHelper extends JunpouDbWriteHelperBase{
         Map<String, String> workingTimeMap = new HashMap<>();
 
         Cursor cursor = null;
-        SQLiteDatabase db = mOpenHelper.getReadableDatabase();
+        SQLiteDatabase db = mInputValOpenHelper.getReadableDatabase();
         String[] targetColumn = new String[]{InputValueDbColumns.COLUMN_ID,
                 InputValueDbColumns.COLUMN_WORKING_TIME};
 

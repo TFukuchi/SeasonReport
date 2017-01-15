@@ -122,7 +122,7 @@ public class ExcelOutput {
         currentSeason.append(mValues.getSeason());
         currentSeason.append("旬");
 
-        cellBindingBorder(3, 3, 20, 22, sheet, currentSeason.toString());// TODO
+        cellBindingBorder(3, 3, 20, 22, sheet, currentSeason.toString());
     }
 
     private void setDateDataFormat(Sheet sheet) {

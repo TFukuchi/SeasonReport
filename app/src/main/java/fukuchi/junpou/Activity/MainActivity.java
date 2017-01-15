@@ -12,10 +12,13 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.util.List;
+
 import fukuchi.junpou.DataBase.InputValueDbOpenHelper;
 import fukuchi.junpou.Fragment.CompleteDialogFragment;
 import fukuchi.junpou.Fragment.InputViewFragment;
 import fukuchi.junpou.Excel.ExcelOutput;
+import fukuchi.junpou.Model.DateData;
 import fukuchi.junpou.Util.JunpouPattern;
 import fukuchi.junpou.R;
 
@@ -25,17 +28,25 @@ public class MainActivity extends AppCompatActivity {
 
     private CompleteDialogFragment.DialogListener mDialogListener =
             new CompleteDialogFragment.DialogListener() {
-        @Override
-        public void onPreview() {
-            ExcelOutput output = new ExcelOutput(getApplicationContext(),
-                    mPattern.getDateData(getApplicationContext()));
-            output.outputTest();
-        }
+                @Override
+                public void onPreview() {
+                    mPattern.getDateData(getApplicationContext(), mDataQueryListener);
+                }
 
-        @Override
-        public void onSendMail() {
-        }
-    };
+                @Override
+                public void onSendMail() {
+                }
+            };
+
+    private JunpouPattern.OnDataQueryListener mDataQueryListener =
+            new JunpouPattern.OnDataQueryListener() {
+                @Override
+                public void onDataQueryFinished(List<DateData> data) {
+                    // この処理もWorkerThreadへ
+                    ExcelOutput output = new ExcelOutput(getApplicationContext(), data);
+                    output.outputTest();
+                }
+            };
 
     private View.OnClickListener mFABClickListener = new View.OnClickListener() {
         @Override
@@ -56,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && toolbar != null) {
-                toolbar.setElevation(0);
+            toolbar.setElevation(0);
         }
 
         setSupportActionBar(toolbar);
