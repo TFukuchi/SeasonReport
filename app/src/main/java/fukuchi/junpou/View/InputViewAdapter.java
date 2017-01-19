@@ -146,13 +146,13 @@ public class InputViewAdapter extends RecyclerView.Adapter<InputViewHolder> {
     }
 
     private void setDataForLayout(final InputViewHolder viewHolder, DateData data) {
-        viewHolder.mPlanAttendance.setText(data.getPlanAttend());
-        viewHolder.mPlanLeaveTime.setText(data.getPlanLeave());
-        viewHolder.mPlanBreakTime.setText(data.getPlanBreakTime());
-        viewHolder.mRealAttendance.setText(data.getRealAttend());
-        viewHolder.mRealLeaveTime.setText(data.getRealLeave());
-        viewHolder.mRealBreakTime.setText(data.getRealBreakTime());
-        viewHolder.mDeepNightBreakTime.setText(data.getDeepNightBreakTime());
+        viewHolder.mPlanAttendance.setTime(data.getPlanAttend());
+        viewHolder.mPlanLeaveTime.setTime(data.getPlanLeave());
+        viewHolder.mPlanBreakTime.setTime(data.getPlanBreakTime());
+        viewHolder.mRealAttendance.setTime(data.getRealAttend());
+        viewHolder.mRealLeaveTime.setTime(data.getRealLeave());
+        viewHolder.mRealBreakTime.setTime(data.getRealBreakTime());
+        viewHolder.mDeepNightBreakTime.setTime(data.getDeepNightBreakTime());
         viewHolder.mWorkContent.setText(data.getWorkContent());
         DateDetailsContainer container = data.getDetailContainer();
         viewHolder.mPaidHolidayCheckBox.setChecked(container.getPaidHolidayFrag());
@@ -169,93 +169,72 @@ public class InputViewAdapter extends RecyclerView.Adapter<InputViewHolder> {
     }
 
     private void setViewListener(final InputViewHolder viewHolder) {
-        viewHolder.mPlanAttendance.addTextChangedListener(new TextWatcherImpl() {
+        viewHolder.mPlanAttendance.setListener(new TimerPickerLinearLayout.OnTimeChangeListener() {
             @Override
-            public void afterTextChanged(Editable s) {
-                if (s != null) {
-                    String text = s.toString();
-                    if (!text.isEmpty()) {
-                        DateData data = mJunpouDateList.get(viewHolder.getAdapterPosition());
-                        data.setPlanAttend(s.toString());
-                    }
+            public void OnTimeChanged(String time) {
+                if (!time.isEmpty()) {
+                    DateData data = mJunpouDateList.get(viewHolder.getAdapterPosition());
+                    data.setPlanAttend(time);
                 }
             }
         });
 
-        viewHolder.mPlanLeaveTime.addTextChangedListener(new TextWatcherImpl() {
+        viewHolder.mPlanLeaveTime.setListener(new TimerPickerLinearLayout.OnTimeChangeListener() {
             @Override
-            public void afterTextChanged(Editable s) {
-                if (s != null) {
-                    String text = s.toString();
-                    if (!text.isEmpty()) {
-                        DateData data = mJunpouDateList.get(viewHolder.getAdapterPosition());
-                        data.setPlanLeave(s.toString());
-                    }
+            public void OnTimeChanged(String time) {
+                if (!time.isEmpty()) {
+                    DateData data = mJunpouDateList.get(viewHolder.getAdapterPosition());
+                    data.setPlanLeave(time);
                 }
             }
         });
 
-        viewHolder.mPlanBreakTime.addTextChangedListener(new TextWatcherImpl() {
+        viewHolder.mPlanBreakTime.setListener(new TimerPickerLinearLayout.OnTimeChangeListener() {
             @Override
-            public void afterTextChanged(Editable s) {
-                if (s != null) {
-                    String text = s.toString();
-                    if (!text.isEmpty()) {
-                        DateData data = mJunpouDateList.get(viewHolder.getAdapterPosition());
-                        data.setPlanBreakTime(s.toString());
-                    }
+            public void OnTimeChanged(String time) {
+                if (!time.isEmpty()) {
+                    DateData data = mJunpouDateList.get(viewHolder.getAdapterPosition());
+                    data.setPlanBreakTime(time);
                 }
             }
         });
 
-        viewHolder.mRealAttendance.addTextChangedListener(new TextWatcherImpl() {
+        viewHolder.mRealAttendance.setListener(new TimerPickerLinearLayout.OnTimeChangeListener() {
             @Override
-            public void afterTextChanged(Editable s) {
-                if (s != null) {
-                    String text = s.toString();
-                    if (!text.isEmpty()) {
-                        DateData data = mJunpouDateList.get(viewHolder.getAdapterPosition());
-                        data.setRealAttend(s.toString());
-                    }
+            public void OnTimeChanged(String time) {
+                if (!time.isEmpty()) {
+                    DateData data = mJunpouDateList.get(viewHolder.getAdapterPosition());
+                    data.setRealAttend(time);
                 }
             }
         });
 
-        viewHolder.mRealLeaveTime.addTextChangedListener(new TextWatcherImpl() {
+        viewHolder.mRealLeaveTime.setListener(new TimerPickerLinearLayout.OnTimeChangeListener() {
             @Override
-            public void afterTextChanged(Editable s) {
-                if (s != null) {
-                    String text = s.toString();
-                    if (!text.isEmpty()) {
-                        DateData data = mJunpouDateList.get(viewHolder.getAdapterPosition());
-                        data.setRealLeave(s.toString());
-                    }
+            public void OnTimeChanged(String time) {
+                if (!time.isEmpty()) {
+                    DateData data = mJunpouDateList.get(viewHolder.getAdapterPosition());
+                    data.setRealLeave(time);
                 }
             }
         });
 
-        viewHolder.mRealBreakTime.addTextChangedListener(new TextWatcherImpl() {
+        viewHolder.mRealBreakTime.setListener(new TimerPickerLinearLayout.OnTimeChangeListener() {
             @Override
-            public void afterTextChanged(Editable s) {
-                if (s != null) {
-                    String text = s.toString();
-                    if (!text.isEmpty()) {
-                        DateData data = mJunpouDateList.get(viewHolder.getAdapterPosition());
-                        data.setRealBreakTime(s.toString());
-                    }
+            public void OnTimeChanged(String time) {
+                if (!time.isEmpty()) {
+                    DateData data = mJunpouDateList.get(viewHolder.getAdapterPosition());
+                    data.setRealBreakTime(time);
                 }
             }
         });
 
-        viewHolder.mDeepNightBreakTime.addTextChangedListener(new TextWatcherImpl() {
+        viewHolder.mDeepNightBreakTime.setListener(new TimerPickerLinearLayout.OnTimeChangeListener() {
             @Override
-            public void afterTextChanged(Editable s) {
-                if (s != null) {
-                    String text = s.toString();
-                    if (!text.isEmpty()) {
-                        DateData data = mJunpouDateList.get(viewHolder.getAdapterPosition());
-                        data.setDeepNightBreakTime(s.toString());
-                    }
+            public void OnTimeChanged(String time) {
+                if (!time.isEmpty()) {
+                    DateData data = mJunpouDateList.get(viewHolder.getAdapterPosition());
+                    data.setDeepNightBreakTime(time);
                 }
             }
         });
@@ -343,7 +322,7 @@ public class InputViewAdapter extends RecyclerView.Adapter<InputViewHolder> {
 
         private final Context mContext;
 
-        public PaidTimeSpinnerAdapter(@NonNull Context context){
+        public PaidTimeSpinnerAdapter(@NonNull Context context) {
             mContext = context;
         }
 

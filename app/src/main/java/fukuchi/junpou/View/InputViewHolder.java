@@ -17,15 +17,15 @@ public class InputViewHolder extends RecyclerView.ViewHolder {
     final TextView mDayOfWeekTextView;
     final TextView mNoteTextView;
 
-    final EditText mPlanAttendance;
-    final EditText mPlanLeaveTime;
-    final EditText mPlanBreakTime;
+    final TimerPickerLinearLayout mPlanAttendance;
+    final TimerPickerLinearLayout mPlanLeaveTime;
+    final TimerPickerLinearLayout mPlanBreakTime;
 
-    final EditText mRealAttendance;
-    final EditText mRealLeaveTime;
-    final EditText mRealBreakTime;
+    final TimerPickerLinearLayout mRealAttendance;
+    final TimerPickerLinearLayout mRealLeaveTime;
+    final TimerPickerLinearLayout mRealBreakTime;
 
-    final EditText mDeepNightBreakTime;
+    final TimerPickerLinearLayout mDeepNightBreakTime;
 
     final EditText mWorkContent;
 
@@ -55,25 +55,17 @@ public class InputViewHolder extends RecyclerView.ViewHolder {
         // initialize plan area
         mPlanArea = (LinearLayout) itemView.findViewById(R.id.plans);
         mPlanText = (TextView) itemView.findViewById(R.id.plan_text);
-        mPlanAttendance = (EditText) itemView.findViewById(R.id.plan_attendance);
-        mPlanAttendance.setInputType(InputType.TYPE_CLASS_DATETIME);
-        mPlanLeaveTime = (EditText) itemView.findViewById(R.id.plan_leaving_office);
-        mPlanLeaveTime.setInputType(InputType.TYPE_CLASS_DATETIME);
-        mPlanBreakTime = (EditText) itemView.findViewById(R.id.plan_break_time);
-        mPlanBreakTime.setInputType(InputType.TYPE_CLASS_DATETIME);
+        mPlanAttendance = (TimerPickerLinearLayout) itemView.findViewById(R.id.plan_attendance);
+        mPlanLeaveTime = (TimerPickerLinearLayout) itemView.findViewById(R.id.plan_leaving_office);
+        mPlanBreakTime = (TimerPickerLinearLayout) itemView.findViewById(R.id.plan_break_time);
 
         // initialize real area
         mRealArea = (LinearLayout) itemView.findViewById(R.id.production);
         mRealText = (TextView) itemView.findViewById(R.id.production_text);
-        mRealAttendance = (EditText) itemView.findViewById(R.id.production_attendance);
-        mRealAttendance.setInputType(InputType.TYPE_CLASS_DATETIME);
-        mRealLeaveTime = (EditText) itemView.findViewById(R.id.production_leaving_office);
-        mRealLeaveTime.setInputType(InputType.TYPE_CLASS_DATETIME);
-        mRealBreakTime = (EditText) itemView.findViewById(R.id.production_break_time);
-        mRealBreakTime.setInputType(InputType.TYPE_CLASS_DATETIME);
-
-        mDeepNightBreakTime = (EditText) itemView.findViewById(R.id.deep_night_break_time_edit);
-        mDeepNightBreakTime.setInputType(InputType.TYPE_CLASS_DATETIME);
+        mRealAttendance = (TimerPickerLinearLayout) itemView.findViewById(R.id.production_attendance);
+        mRealLeaveTime = (TimerPickerLinearLayout) itemView.findViewById(R.id.production_leaving_office);
+        mRealBreakTime = (TimerPickerLinearLayout) itemView.findViewById(R.id.production_break_time);
+        mDeepNightBreakTime = (TimerPickerLinearLayout) itemView.findViewById(R.id.deep_night_break_time_edit);
 
         // work text area
         mWorkText = (TextView) itemView.findViewById(R.id.work_text);

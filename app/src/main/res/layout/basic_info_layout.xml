@@ -101,7 +101,7 @@
                     android:layout_height="wrap_content"
                     android:text="▼出社" />
 
-                <EditText
+                <fukuchi.junpou.View.TimerPickerLinearLayout
                     android:id="@+id/base_attending"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
@@ -118,7 +118,7 @@
                     android:layout_height="wrap_content"
                     android:text="▼退社" />
 
-                <EditText
+                <fukuchi.junpou.View.TimerPickerLinearLayout
                     android:id="@+id/base_leaving_office"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
@@ -135,7 +135,7 @@
                     android:layout_height="wrap_content"
                     android:text="▼休憩時間" />
 
-                <EditText
+                <fukuchi.junpou.View.TimerPickerLinearLayout
                     android:id="@+id/base_break_time"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />

@@ -1,0 +1,3 @@
+[submodule "AndroidComponentLibrary"]
+	path = AndroidComponentLibrary
+	url = https://github.com/com4dc/AndroidComponentLibrary.git

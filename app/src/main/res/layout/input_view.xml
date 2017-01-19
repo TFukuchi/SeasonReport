@@ -58,7 +58,7 @@
                 android:text="@string/attendance"
                 android:textColor="@android:color/black" />
 
-            <EditText
+            <fukuchi.junpou.View.TimerPickerLinearLayout
                 android:id="@+id/plan_attendance"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
@@ -76,7 +76,7 @@
                 android:text="@string/leaving_office"
                 android:textColor="@android:color/black" />
 
-            <EditText
+            <fukuchi.junpou.View.TimerPickerLinearLayout
                 android:id="@+id/plan_leaving_office"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
@@ -94,7 +94,7 @@
                 android:text="@string/break_time"
                 android:textColor="@android:color/black" />
 
-            <EditText
+            <fukuchi.junpou.View.TimerPickerLinearLayout
                 android:id="@+id/plan_break_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
@@ -130,7 +130,7 @@
                 android:text="@string/attendance"
                 android:textColor="@android:color/black" />
 
-            <EditText
+            <fukuchi.junpou.View.TimerPickerLinearLayout
                 android:id="@+id/production_attendance"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
@@ -148,7 +148,7 @@
                 android:text="@string/leaving_office"
                 android:textColor="@android:color/black" />
 
-            <EditText
+            <fukuchi.junpou.View.TimerPickerLinearLayout
                 android:id="@+id/production_leaving_office"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
@@ -167,7 +167,7 @@
                 android:text="@string/break_time"
                 android:textColor="@android:color/black" />
 
-            <EditText
+            <fukuchi.junpou.View.TimerPickerLinearLayout
                 android:id="@+id/production_break_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
@@ -185,7 +185,7 @@
                 android:text="@string/deep_night_break_time"
                 android:textColor="@android:color/black"/>
 
-            <EditText
+            <fukuchi.junpou.View.TimerPickerLinearLayout
                 android:id="@+id/deep_night_break_time_edit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />

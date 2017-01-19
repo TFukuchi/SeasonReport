@@ -5,22 +5,22 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.InputType;
 import android.view.MenuItem;
 import android.widget.EditText;
 
 import fukuchi.junpou.Model.BasicInfoData;
 import fukuchi.junpou.R;
 import fukuchi.junpou.Util.PublicVariable;
+import fukuchi.junpou.View.TimerPickerLinearLayout;
 
 public class BasicInfoActivity extends AppCompatActivity {
     private EditText mNameEditText;
     private EditText mUserIdEditText;
     private EditText mWorkCodeEditText;
     private EditText mWorkLocationEditText;
-    private EditText mBaseAttendingEditText;
-    private EditText mBaseLeavingOfficeEditText;
-    private EditText mBaseBreakTimeEditText;
+    private TimerPickerLinearLayout mBaseAttendingPicker;
+    private TimerPickerLinearLayout mBaseLeavingOfficePicker;
+    private TimerPickerLinearLayout mBaseBreakTimePicker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,14 +40,9 @@ public class BasicInfoActivity extends AppCompatActivity {
 
         mWorkLocationEditText = (EditText) findViewById(R.id.work_location);
 
-        mBaseAttendingEditText = (EditText) findViewById(R.id.base_attending);
-        mBaseAttendingEditText.setInputType(InputType.TYPE_CLASS_DATETIME);
-
-        mBaseLeavingOfficeEditText = (EditText) findViewById(R.id.base_leaving_office);
-        mBaseLeavingOfficeEditText.setInputType(InputType.TYPE_CLASS_DATETIME);
-
-        mBaseBreakTimeEditText = (EditText) findViewById(R.id.base_break_time);
-        mBaseBreakTimeEditText.setInputType(InputType.TYPE_CLASS_DATETIME);
+        mBaseAttendingPicker = (TimerPickerLinearLayout) findViewById(R.id.base_attending);
+        mBaseLeavingOfficePicker = (TimerPickerLinearLayout) findViewById(R.id.base_leaving_office);
+        mBaseBreakTimePicker = (TimerPickerLinearLayout) findViewById(R.id.base_break_time);
     }
 
     @Override
@@ -58,9 +53,9 @@ public class BasicInfoActivity extends AppCompatActivity {
         setDataForView(infoData.getUserId(), mUserIdEditText);
         setDataForView(infoData.getWorkCode(), mWorkCodeEditText);
         setDataForView(infoData.getWorkLocation(), mWorkLocationEditText);
-        setDataForView(infoData.getBaseAttendingTime(), mBaseAttendingEditText);
-        setDataForView(infoData.getBaseLeavingOfficeTime(), mBaseLeavingOfficeEditText);
-        setDataForView(infoData.getBaseBreakTime(), mBaseBreakTimeEditText);
+        mBaseAttendingPicker.setTime(infoData.getBaseAttendingTime());
+        mBaseLeavingOfficePicker.setTime(infoData.getBaseLeavingOfficeTime());
+        mBaseBreakTimePicker.setTime(infoData.getBaseBreakTime());
     }
 
     @Override
@@ -98,9 +93,9 @@ public class BasicInfoActivity extends AppCompatActivity {
         editor.putString(PublicVariable.KEY_USER_ID, mUserIdEditText.getText().toString());
         editor.putString(PublicVariable.KEY_WORK_CODE, mWorkCodeEditText.getText().toString());
         editor.putString(PublicVariable.KEY_WORK_LOCATION, mWorkLocationEditText.getText().toString());
-        editor.putString(PublicVariable.KEY_BASE_ATTENDING, mBaseAttendingEditText.getText().toString());
-        editor.putString(PublicVariable.KEY_BASE_LEAVING_OFFICE, mBaseLeavingOfficeEditText.getText().toString());
-        editor.putString(PublicVariable.KEY_BASE_BREAK_TIME, mBaseBreakTimeEditText.getText().toString());
+        editor.putString(PublicVariable.KEY_BASE_ATTENDING, mBaseAttendingPicker.getTime());
+        editor.putString(PublicVariable.KEY_BASE_LEAVING_OFFICE, mBaseLeavingOfficePicker.getTime());
+        editor.putString(PublicVariable.KEY_BASE_BREAK_TIME, mBaseBreakTimePicker.getTime());
         editor.apply();
     }
 
