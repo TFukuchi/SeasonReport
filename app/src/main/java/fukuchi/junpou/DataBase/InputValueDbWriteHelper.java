@@ -16,7 +16,7 @@ import fukuchi.junpou.Util.JunpouPattern;
 import static fukuchi.junpou.Util.JunpouUtil.createId;
 import static fukuchi.junpou.Util.JunpouUtil.getTotalWorkingTime;
 
-public class InputValueDbWriteHelper extends JunpouDbWriteHelperBase{
+public class InputValueDbWriteHelper extends JunpouDbWriteHelperBase {
 
     public InputValueDbWriteHelper(Context context) {
         super(context);
@@ -54,11 +54,9 @@ public class InputValueDbWriteHelper extends JunpouDbWriteHelperBase{
 
     public Map<String, String> workTimeQuery(int year, int month,
                                              @JunpouPattern.SeasonNumber int season) {
-
         //Map<id, workingTime>
         Map<String, String> workingTimeMap = new HashMap<>();
 
-        Cursor cursor = null;
         SQLiteDatabase db = mInputValOpenHelper.getReadableDatabase();
         String[] targetColumn = new String[]{InputValueDbColumns.COLUMN_ID,
                 InputValueDbColumns.COLUMN_WORKING_TIME};
@@ -74,20 +72,14 @@ public class InputValueDbWriteHelper extends JunpouDbWriteHelperBase{
                 selection += " OR " + InputValueDbColumns.COLUMN_ID + " = ? ";
             }
         }
-        try {
-            cursor = db.query(InputValueDbColumns.TABLE_NAME, targetColumn, selection,
-                    selectionArgs, null, null, null);
+        try (Cursor cursor = db.query(InputValueDbColumns.TABLE_NAME, targetColumn, selection,
+                selectionArgs, null, null, null)) {
             while (cursor != null && cursor.moveToNext()) {
                 String targetId = cursor.getString(cursor.getColumnIndex(InputValueDbColumns.COLUMN_ID));
                 String workingTime =
                         cursor.getString(cursor.getColumnIndex(InputValueDbColumns.COLUMN_WORKING_TIME));
 
                 workingTimeMap.put(targetId, workingTime);
-            }
-        } finally {
-            if (cursor != null) {
-                cursor.close();
-                cursor = null;
             }
         }
 
@@ -111,10 +103,8 @@ public class InputValueDbWriteHelper extends JunpouDbWriteHelperBase{
             InputValueDbOpenHelper helper = new InputValueDbOpenHelper(mContext);
             SQLiteDatabase db = helper.getWritableDatabase();
 
-            Cursor cursor = null;
-            try {
-                cursor = db.query(InputValueDbColumns.TABLE_NAME, null,
-                        selection, selectionArgs, null, null, null);
+            try (Cursor cursor = db.query(InputValueDbColumns.TABLE_NAME, null,
+                    selection, selectionArgs, null, null, null)) {
                 while (cursor != null && cursor.moveToNext()) {
                     String date = cursor.getString(cursor.getColumnIndex(InputValueDbColumns.COLUMN_DATE));
                     String planAttend = cursor.getString(cursor.getColumnIndex(InputValueDbColumns.COLUMN_PLAN_ATTEND));
@@ -130,10 +120,6 @@ public class InputValueDbWriteHelper extends JunpouDbWriteHelperBase{
                             planBreakTime, realAttend, realLeaves, realBreakTime, deepNightBreakTime,
                             holiday, workContent);
                     dataContainerList.add(entity);
-                }
-            } finally {
-                if (cursor != null) {
-                    cursor.close();
                 }
             }
         }

@@ -6,6 +6,29 @@
     <string name="leaving_office">退社</string>
     <string name="break_time">休憩時間</string>
     <string name="deep_night_break_time">深夜休憩</string>
+    <string name="season_report">旬報</string>
+    <string name="season">旬</string>
+    <string name="year">年</string>
+    <string name="month">月</string>
+    <string name="day">日</string>
+
+    <string name="season_report_title">作 業 報 告 書</string>
+    <string name="season_report_date">日付</string>
+    <string name="season_report_plan_attend">予定出社</string>
+    <string name="season_report_plan_leave">予定退社</string>
+    <string name="season_report_real_attend">出社</string>
+    <string name="season_report_real_leave">退社</string>
+    <string name="season_report_flex">F適用外</string>
+    <string name="season_report_break_time">休憩</string>
+    <string name="season_report_deep_break_time">深夜休憩</string>
+    <string name="season_report_working_time">勤務時間</string>
+    <string name="season_report_working_total">累計</string>
+    <string name="season_report_deep_night">深夜</string>
+
+
+    <string name="under_bar">_</string>
+    <string name="hyphen">-</string>
+    <string name="space"> </string>
 
     <string-array name="paid_time_array">
         <item>0</item>

@@ -10,8 +10,12 @@ import android.widget.EditText;
 
 import fukuchi.junpou.Model.BasicInfoData;
 import fukuchi.junpou.R;
+import fukuchi.junpou.Util.PaidHolidayTimeCalculator;
 import fukuchi.junpou.Util.PublicVariable;
 import fukuchi.junpou.View.TimerPickerLinearLayout;
+
+import static fukuchi.junpou.Util.PublicVariable.KEY_PAID_HOLIDAY_COUNT;
+import static fukuchi.junpou.Util.PublicVariable.KEY_PAID_TIME_COUNT;
 
 public class BasicInfoActivity extends AppCompatActivity {
     private EditText mNameEditText;
@@ -21,6 +25,8 @@ public class BasicInfoActivity extends AppCompatActivity {
     private TimerPickerLinearLayout mBaseAttendingPicker;
     private TimerPickerLinearLayout mBaseLeavingOfficePicker;
     private TimerPickerLinearLayout mBaseBreakTimePicker;
+    private EditText mPaidHolidayDateCountEditText;
+    private EditText mPaidTimeCountEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +49,9 @@ public class BasicInfoActivity extends AppCompatActivity {
         mBaseAttendingPicker = (TimerPickerLinearLayout) findViewById(R.id.base_attending);
         mBaseLeavingOfficePicker = (TimerPickerLinearLayout) findViewById(R.id.base_leaving_office);
         mBaseBreakTimePicker = (TimerPickerLinearLayout) findViewById(R.id.base_break_time);
+
+        mPaidHolidayDateCountEditText = (EditText) findViewById(R.id.paid_holiday_date_count);
+        mPaidTimeCountEditText = (EditText) findViewById(R.id.paid_time_count);
     }
 
     @Override
@@ -56,6 +65,8 @@ public class BasicInfoActivity extends AppCompatActivity {
         mBaseAttendingPicker.setTime(infoData.getBaseAttendingTime());
         mBaseLeavingOfficePicker.setTime(infoData.getBaseLeavingOfficeTime());
         mBaseBreakTimePicker.setTime(infoData.getBaseBreakTime());
+        mPaidHolidayDateCountEditText.setText(infoData.getPaidHolidayCount());
+        mPaidTimeCountEditText.setText(infoData.getPaidTimeCount());
     }
 
     @Override
@@ -82,7 +93,6 @@ public class BasicInfoActivity extends AppCompatActivity {
             default:
                 result = super.onOptionsItemSelected(item);
         }
-
         return result;
     }
 
@@ -96,7 +106,10 @@ public class BasicInfoActivity extends AppCompatActivity {
         editor.putString(PublicVariable.KEY_BASE_ATTENDING, mBaseAttendingPicker.getTime());
         editor.putString(PublicVariable.KEY_BASE_LEAVING_OFFICE, mBaseLeavingOfficePicker.getTime());
         editor.putString(PublicVariable.KEY_BASE_BREAK_TIME, mBaseBreakTimePicker.getTime());
+        editor.putString(KEY_PAID_HOLIDAY_COUNT, mPaidHolidayDateCountEditText.getText().toString());
+        editor.putString(KEY_PAID_TIME_COUNT, mPaidTimeCountEditText.getText().toString());
         editor.apply();
+        PaidHolidayTimeCalculator.calculate(getApplicationContext());
     }
 
     private void setDataForView(String baseValue, EditText target) {

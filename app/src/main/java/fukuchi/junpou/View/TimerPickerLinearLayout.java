@@ -1,8 +1,10 @@
 package fukuchi.junpou.View;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.AdapterView;
@@ -11,6 +13,8 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import fukuchi.junpou.R;
+
 public class TimerPickerLinearLayout extends LinearLayout {
 
     public interface OnTimeChangeListener {
@@ -18,7 +22,7 @@ public class TimerPickerLinearLayout extends LinearLayout {
     }
 
     private final static String[] mHours = new String[24];
-    private final static String[] mMinutes = new String[]{"0", "15", "30", "45"};
+    private final static String[] mMinutes = new String[]{"00", "15", "30", "45"};
 
     private Spinner mHourSpinner;
     private Spinner mMinuteSpinner;
@@ -61,17 +65,20 @@ public class TimerPickerLinearLayout extends LinearLayout {
         mMinuteSpinner = new Spinner(context);
 
         ArrayAdapter<String> hourAdapter =
-                new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, mHours);
+                new ArrayAdapter<>(context, R.layout.time_pick_spinner_layout, mHours);
+        hourAdapter.setDropDownViewResource(R.layout.time_pick_spinner_list_layout);
         mHourSpinner.setAdapter(hourAdapter);
 
         this.addView(mHourSpinner);
 
         TextView text = new TextView(context);
+        text.setTextColor(ContextCompat.getColor(context, android.R.color.black));
         text.setText(":");
         this.addView(text);
 
         ArrayAdapter<String> minuteAdapter =
-                new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, mMinutes);
+                new ArrayAdapter<>(context, R.layout.time_pick_spinner_layout, mMinutes);
+        minuteAdapter.setDropDownViewResource(R.layout.time_pick_spinner_list_layout);
         mMinuteSpinner.setAdapter(minuteAdapter);
 
         this.addView(mMinuteSpinner);

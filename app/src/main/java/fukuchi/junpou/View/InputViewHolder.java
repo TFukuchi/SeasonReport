@@ -1,7 +1,5 @@
 package fukuchi.junpou.View;
 
-import android.support.v7.widget.RecyclerView;
-import android.text.InputType;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -9,13 +7,15 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import fukuchi.junpou.Model.DateData;
+import fukuchi.junpou.Model.DateDetailsContainer;
 import fukuchi.junpou.R;
 
-public class InputViewHolder extends RecyclerView.ViewHolder {
+public class InputViewHolder extends InputViewHolderBase {
 
-    final TextView mDayTextView;
-    final TextView mDayOfWeekTextView;
-    final TextView mNoteTextView;
+    private final TextView mDayTextView;
+    private final TextView mDayOfWeekTextView;
+    private final TextView mNoteTextView;
 
     final TimerPickerLinearLayout mPlanAttendance;
     final TimerPickerLinearLayout mPlanLeaveTime;
@@ -29,20 +29,20 @@ public class InputViewHolder extends RecyclerView.ViewHolder {
 
     final EditText mWorkContent;
 
-    final LinearLayout mPlanArea;
-    final TextView mPlanText;
+    private final LinearLayout mPlanArea;
+    private final TextView mPlanText;
 
-    final LinearLayout mRealArea;
-    final TextView mRealText;
+    private final LinearLayout mRealArea;
+    private final TextView mRealText;
 
-    final TextView mWorkText;
+    private final TextView mWorkText;
 
     final CheckBox mPaidHolidayCheckBox;
     final CheckBox mTransferWorkCheckBox;
     final CheckBox mFlexCheckBox;
     final CheckBox mHolidayWorkCheckBox;
 
-    final LinearLayout mPaidTimeLinearLayout;
+    private final LinearLayout mPaidTimeLinearLayout;
     final Spinner mPaidTimeSpinner;
 
     InputViewHolder(View itemView) {
@@ -80,4 +80,52 @@ public class InputViewHolder extends RecyclerView.ViewHolder {
         mPaidTimeLinearLayout = (LinearLayout) itemView.findViewById(R.id.paid_time);
         mPaidTimeSpinner = (Spinner) itemView.findViewById(R.id.paid_time_spinner);
     }
+
+    public void setVisibility(DateData data) {
+        int visibility = data.getVisibility() == View.GONE ? View.GONE : View.VISIBLE;
+        mPlanArea.setVisibility(visibility);
+        mPlanText.setVisibility(visibility);
+        mRealArea.setVisibility(visibility);
+        mRealText.setVisibility(visibility);
+        mWorkContent.setVisibility(visibility);
+        mWorkText.setVisibility(visibility);
+        mPaidHolidayCheckBox.setVisibility(visibility);
+        mPaidTimeLinearLayout.setVisibility(visibility);
+        mFlexCheckBox.setVisibility(visibility);
+        if (visibility == View.VISIBLE) {
+            mHolidayWorkCheckBox.setVisibility(View.GONE);
+        } else {
+            mHolidayWorkCheckBox.setVisibility(View.VISIBLE);
+        }
+    }
+
+    public void setDataForLayout(DateData data) {
+        mDayTextView.setText(data.getDay());
+        String dayOfWeek = data.getDayOfWeek();
+        mDayOfWeekTextView.setText("(" + dayOfWeek + ")");
+        mDayOfWeekTextView.setTextColor(data.getColor());
+        mNoteTextView.setText(data.getHolidayText());
+        mPlanAttendance.setTime(data.getPlanAttend());
+        mPlanLeaveTime.setTime(data.getPlanLeave());
+        mPlanBreakTime.setTime(data.getPlanBreakTime());
+        mRealAttendance.setTime(data.getRealAttend());
+        mRealLeaveTime.setTime(data.getRealLeave());
+        mRealBreakTime.setTime(data.getRealBreakTime());
+        mDeepNightBreakTime.setTime(data.getDeepNightBreakTime());
+        mWorkContent.setText(data.getWorkContent());
+        DateDetailsContainer container = data.getDetailContainer();
+        mPaidHolidayCheckBox.setChecked(container.getPaidHolidayFrag());
+        mTransferWorkCheckBox.setChecked(container.getTransferWorkFlag());
+        mFlexCheckBox.setChecked(container.getFlex());
+        mHolidayWorkCheckBox.setChecked(container.getHolidayWorkFlag());
+    }
+
+    public void changeVisibility(int visibility) {
+        mPlanArea.setVisibility(visibility);
+        mPlanText.setVisibility(visibility);
+        mRealArea.setVisibility(visibility);
+        mRealText.setVisibility(visibility);
+        mDeepNightBreakTime.setVisibility(visibility);
+    }
+
 }

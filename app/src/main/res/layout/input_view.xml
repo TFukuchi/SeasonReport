@@ -101,10 +101,6 @@
         </LinearLayout>
     </LinearLayout>
 
-    <Space
-        android:layout_width="10dp"
-        android:layout_height="10dp" />
-
     <TextView
         android:id="@+id/production_text"
         android:layout_width="match_parent"
@@ -193,10 +189,6 @@
         </LinearLayout>
     </LinearLayout>
 
-    <Space
-        android:layout_width="10dp"
-        android:layout_height="10dp" />
-
     <TextView
         android:id="@+id/work_text"
         android:layout_width="match_parent"
@@ -208,6 +200,8 @@
         android:id="@+id/work_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:hint="当日の業務内容/休暇理由"
+        android:textColorHint="#44000000"
         android:inputType="text" />
 
     <Space
@@ -226,6 +220,7 @@
             android:layout_height="wrap_content"
             android:text="有給休暇"
             android:layout_weight="1"
+            android:theme="@style/CheckBoxStyle"
             android:textColor="@android:color/black" />
 
         <LinearLayout
@@ -246,15 +241,16 @@
                 android:layout_height="wrap_content"
                 android:textColor="@android:color/black"
                 android:layout_weight="1"
-                android:text="時間給"/>
+                android:text="h 時間給"/>
         </LinearLayout>
 
         <CheckBox
             android:id="@+id/transfer_work"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="振替出勤"
+            android:text="振替"
             android:layout_weight="1"
+            android:theme="@style/CheckBoxStyle"
             android:textColor="@android:color/black" />
 
         <CheckBox
@@ -263,6 +259,7 @@
             android:layout_height="wrap_content"
             android:text="F適用外"
             android:layout_weight="1"
+            android:theme="@style/CheckBoxStyle"
             android:textColor="@android:color/black" />
         <CheckBox
             android:id="@+id/holiday_work"
@@ -270,6 +267,7 @@
             android:layout_height="wrap_content"
             android:text="休日出勤"
             android:layout_weight="1"
+            android:theme="@style/CheckBoxStyle"
             android:textColor="@android:color/black"
             android:visibility="gone"/>
     </LinearLayout>

@@ -26,6 +26,10 @@
             android:name=".Activity.BasicInfoActivity"
             android:label="@string/basic_info_settings"
             android:theme="@style/AppTheme.NoActionBar"/>
+
+        <activity
+            android:name=".Activity.DataInputActivity"/>
+
     </application>
 
 </manifest>
