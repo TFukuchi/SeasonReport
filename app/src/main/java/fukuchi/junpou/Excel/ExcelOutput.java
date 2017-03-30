@@ -19,6 +19,7 @@ import java.util.List;
 import fukuchi.junpou.Model.BasicInfoData;
 import fukuchi.junpou.Model.DateData;
 import fukuchi.junpou.Model.DateDetailsContainer;
+import fukuchi.junpou.R;
 import fukuchi.junpou.Util.JunpouValues;
 import fukuchi.junpou.Util.JunpouUtil;
 
@@ -35,7 +36,7 @@ public class ExcelOutput {
     private final List<DateData> mDateDataList;
 
     private final JunpouValues mValues;
-    private final BasicInfoData mBasingInfo;
+    private final BasicInfoData mBasicInfo;
 
     private final static String SELECTED_COMMENT = "*";
     private final static String EXCEL_EXTENSION = ".xls";
@@ -44,36 +45,56 @@ public class ExcelOutput {
         mContext = context;
         mDateDataList = dateDataList;
         mValues = mDateDataList.get(0).getJunpouValues();
-        mBasingInfo = new BasicInfoData(context);
+        mBasicInfo = new BasicInfoData(context);
     }
 
-    public void outputTest() {
-        Workbook workbook = new HSSFWorkbook();
-        try {
-            StringBuilder fileName = new StringBuilder();
-            fileName.append("旬報");
-            fileName.append(mValues.getYear());
-            fileName.append(mValues.getMonth());
-            fileName.append("_");
-            fileName.append(mValues.getSeason());
-            fileName.append("旬");
-            fileName.append("(");
-            fileName.append(mBasingInfo.getUserId());
-            fileName.append(")");
-            fileName.append(EXCEL_EXTENSION);
+    /**
+     * @return File path
+     */
+    public String outputExecute() {
+        String seasonReport = mContext.getString(R.string.season_report);
+        String season = mContext.getString(R.string.season);
+        String year = mContext.getString(R.string.year);
+        String month = mContext.getString(R.string.month);
+        String day = mContext.getString(R.string.day);
 
-            FileOutputStream fileOutputStream = new FileOutputStream(
-                    new File(mContext.getExternalFilesDir(null), fileName.toString()));
+        String underBar = mContext.getString(R.string.under_bar);
+        String space = mContext.getString(R.string.space);
+
+        String monthPoint = String.valueOf(mValues.getMonth());
+
+        Workbook workbook = new HSSFWorkbook();
+        StringBuilder fileName = new StringBuilder();
+        fileName.append(seasonReport);
+        fileName.append(underBar);
+        fileName.append(mBasicInfo.getUserId());
+        fileName.append(underBar);
+        fileName.append(mBasicInfo.getLastName());
+        fileName.append(underBar);
+        fileName.append(mValues.getYear());
+        if (monthPoint.length() == 1) {
+            fileName.append(0);
+        }
+        fileName.append(mValues.getMonth());
+        fileName.append(underBar);
+        fileName.append(mValues.getSeason());
+        fileName.append(season);
+        fileName.append(EXCEL_EXTENSION);
+        File file = new File(mContext.getExternalFilesDir(null), fileName.toString());
+        try (FileOutputStream fileOutputStream = new FileOutputStream(file)) {
 
             // Create new sheet.
             StringBuilder sheetName = new StringBuilder();
             sheetName.append(mValues.getYear());
-            sheetName.append("年 ");
+            sheetName.append(year);
+            sheetName.append(space);
             sheetName.append(mValues.getMonth());
-            sheetName.append("月 ");
+            sheetName.append(month);
+            sheetName.append(space);
             sheetName.append(mValues.getSeason());
-            sheetName.append("旬 ");
-            sheetName.append(mBasingInfo.getName());
+            sheetName.append(season);
+            sheetName.append(space);
+            sheetName.append(mBasicInfo.getLastName() + " " + mBasicInfo.getFirstName());
             Sheet sheet = workbook.createSheet(sheetName.toString());
             mBorderStyle = getBorder(workbook);
 
@@ -82,27 +103,32 @@ public class ExcelOutput {
             setDateDataFormat(sheet);
 
             workbook.write(fileOutputStream);
-            fileOutputStream.close();
         } catch (IOException e) {
             android.util.Log.v("Fukuchi", "IOException : " + e.getMessage());
         }
+
+        return file.getPath();
+    }
+
+    private String getString(int stringResId) {
+        return mContext.getString(stringResId);
     }
 
     private void setDefaultFormat(Sheet sheet) {
         sheet.setDisplayGridlines(false);
-        cellBindingBorder(1, 2, 3, 8, sheet, "作 業 報 告 書");
-        cellBindingBorder(4, 7, 1, 1, sheet, "日付");
-        cellBindingBorder(4, 7, 2, 2, sheet, "予定出社");
-        cellBindingBorder(4, 7, 3, 3, sheet, "予定退社");
-        cellBindingBorder(4, 7, 4, 4, sheet, "出社");
-        cellBindingBorder(4, 7, 5, 5, sheet, "退社");
-        cellBindingBorder(4, 7, 6, 6, sheet, "F適用外");
-        cellBindingBorder(4, 7, 7, 7, sheet, "休憩");
-        cellBindingBorder(4, 7, 8, 8, sheet, "深夜休憩");
-        cellBindingBorder(4, 7, 9, 9, sheet, "勤務時間");
-        cellBindingBorder(4, 7, 10, 10, sheet, "累計");
+        cellBindingBorder(1, 2, 3, 8, sheet, getString(R.string.season_report_title));
+        cellBindingBorder(4, 7, 1, 1, sheet, getString(R.string.season_report_date));
+        cellBindingBorder(4, 7, 2, 2, sheet, getString(R.string.season_report_plan_attend));
+        cellBindingBorder(4, 7, 3, 3, sheet, getString(R.string.season_report_plan_leave));
+        cellBindingBorder(4, 7, 4, 4, sheet, getString(R.string.season_report_real_attend));
+        cellBindingBorder(4, 7, 5, 5, sheet, getString(R.string.season_report_real_leave));
+        cellBindingBorder(4, 7, 6, 6, sheet, getString(R.string.season_report_flex));
+        cellBindingBorder(4, 7, 7, 7, sheet, getString(R.string.season_report_break_time));
+        cellBindingBorder(4, 7, 8, 8, sheet, getString(R.string.season_report_deep_break_time));
+        cellBindingBorder(4, 7, 9, 9, sheet, getString(R.string.season_report_working_time));
+        cellBindingBorder(4, 7, 10, 10, sheet, getString(R.string.season_report_working_total));
         cellBindingBorder(4, 4, 11, 14, sheet, "所定外勤務");
-        cellBindingBorder(5, 7, 11, 11, sheet, "深夜");
+        cellBindingBorder(5, 7, 11, 11, sheet, getString(R.string.season_report_deep_night));
         cellBindingBorder(5, 7, 12, 12, sheet, "法定休日");
         cellBindingBorder(5, 7, 13, 13, sheet, "所定休日");
         cellBindingBorder(5, 7, 14, 14, sheet, "F適用外");
@@ -111,8 +137,8 @@ public class ExcelOutput {
         cellBindingBorder(3, 3, 14, 16, sheet, "160時間(T)");// TODO
         cellBindingBorder(4, 4, 15, 15, sheet, "(40H)");
         cellBindingBorder(5, 5, 15, 15, sheet, "有休");
-        cellBindingBorder(6, 6, 15, 15, sheet, "6.0(T)");// TODO
-        cellBindingBorder(7, 7, 15, 15, sheet, "40h(T)");// TODO
+        cellBindingBorder(6, 6, 15, 15, sheet, mBasicInfo.getPaidHolidayCount() + "日");
+        cellBindingBorder(7, 7, 15, 15, sheet, mBasicInfo.getPaidTimeCount() + "h");
         cellBindingBorder(4, 7, 16, 16, sheet, "遅刻・早退");
         cellBindingBorder(4, 7, 17, 22, sheet, "作業内容");
 
@@ -172,7 +198,6 @@ public class ExcelOutput {
             // 休憩
             cellBindingBorder(targetRow, targetRow, 7, 7, sheet, dateData.getRealBreakTime());
             // 深夜休憩
-            // 項目を作ってないので実装必要
             cellBindingBorder(targetRow, targetRow, 8, 8, sheet, dateData.getDeepNightBreakTime());
             // 勤務時間
 

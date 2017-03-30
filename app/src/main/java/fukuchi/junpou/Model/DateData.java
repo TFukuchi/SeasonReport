@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.View;
 
 import ajd4jp.Week;
@@ -14,6 +15,7 @@ public class DateData {
 
     private static final String SUNDAY_SHORT_NAME = "Sun";
     private static final String SATURDAY_SHORT_NAME = "Sat";
+    private static final String DEFAULT_TIME = "0:00";
 
     private final String mDay;
     private final String mDayOfWeek;
@@ -147,48 +149,67 @@ public class DateData {
         return mHolidayText;
     }
 
-    @Nullable
     public int getVisibility() {
         return mVisibility;
     }
 
-    @Nullable
     public int getColor() {
         return mColor;
     }
 
     @Nullable
     public String getPlanAttend() {
+        if (TextUtils.isEmpty(mPlanAttend) || getHolydayFlag()) {
+            return "";
+        }
         return mPlanAttend;
     }
 
     @Nullable
     public String getPlanLeave() {
+        if (TextUtils.isEmpty(mPlanLeave) || getHolydayFlag()) {
+            return "";
+        }
         return mPlanLeave;
     }
 
     @Nullable
     public String getPlanBreakTime() {
+        if (TextUtils.isEmpty(mPlanBreakTime) || getHolydayFlag()) {
+            return "";
+        }
         return mPlanBreakTime;
     }
 
     @Nullable
     public String getRealAttend() {
+        if (TextUtils.isEmpty(mRealAttend) || getHolydayFlag()) {
+            return "";
+        }
         return mRealAttend;
     }
 
     @Nullable
     public String getRealLeave() {
+        if (TextUtils.isEmpty(mRealLeave) || getHolydayFlag()) {
+            return "";
+        }
         return mRealLeave;
     }
 
     @Nullable
     public String getRealBreakTime() {
+        if (TextUtils.isEmpty(mRealBreakTime) || getHolydayFlag()) {
+            return "";
+        }
         return mRealBreakTime;
     }
 
     @Nullable
     public String getDeepNightBreakTime() {
+        if (TextUtils.isEmpty(mDeepNightBreakTime) || getHolydayFlag()) {
+            return "";
+        }
         return mDeepNightBreakTime;
     }
 
@@ -197,7 +218,6 @@ public class DateData {
         return mWorkContent;
     }
 
-    @Nullable
     public boolean isHoliday() {
         return mIsHoliday;
     }
@@ -210,5 +230,9 @@ public class DateData {
     @Nullable
     public DateDetailsContainer getDetailContainer() {
         return mDetailContainer;
+    }
+
+    private boolean getHolydayFlag() {
+        return getVisibility() == View.GONE || mDetailContainer.getPaidHolidayFrag();
     }
 }

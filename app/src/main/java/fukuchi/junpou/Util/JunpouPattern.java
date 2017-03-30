@@ -123,16 +123,15 @@ public class JunpouPattern {
         return FIRST_SEASON_NUM;
     }
 
-    public void getDateData(Context context, OnDataQueryListener listener) {
+    public List<DateData> getDateData(OnDataQueryListener listener) {
         Calendar cal = Calendar.getInstance();
         int year = cal.get(Calendar.YEAR);
         int month = cal.get(Calendar.MONTH) + 1;
         List<Integer> currentSeason = getSeasonListFromDay(cal);
-        getDateData(context, year, month, currentSeason, listener);
+        return getDateData(year, month, currentSeason, listener);
     }
 
-    public void getDateData(Context context, int year, int month,
-                            @NonNull List<Integer> targetList,
+    public List<DateData> getDateData(int year, int month, @NonNull List<Integer> targetList,
                             OnDataQueryListener listener) {
 
         Month mon = null;
@@ -140,6 +139,7 @@ public class JunpouPattern {
             mon = new Month(year, month);
         } catch (AJDException e) {
             e.printStackTrace();
+            return null;
         }
 
         CandoHoliday candoHolidayContainer = new CandoHoliday(year, month);
@@ -148,8 +148,9 @@ public class JunpouPattern {
         List<DateData> dateDataList = new ArrayList<>();
 
         for (AJD ajd : mon.getDays()) {
-            JunpouValues junpouValues = new JunpouValues(ajd.getYear(), ajd.getMonth(),
-                    getSeasonInteger(targetList.get(0)), mContext);
+            JunpouValues junpouValues =
+                    new JunpouValues(ajd.getYear(), ajd.getMonth(),
+                            getSeasonInteger(targetList.get(0)), mContext);
             int day = ajd.getDay();
 
             if (targetList.contains(day)) {
@@ -165,13 +166,15 @@ public class JunpouPattern {
                 }
 
                 dateDataList.add(new DateData(ajd.getMonth() + "/" + day, ajd.getWeek(),
-                        note, context, createId(year, month, day), junpouValues,
+                        note, mContext, createId(year, month, day), junpouValues,
                         new DateDetailsContainer()));
             }
         }
 
-        DateDataQueryTask queryTask = new DateDataQueryTask(context, dateDataList, listener);
+        DateDataQueryTask queryTask = new DateDataQueryTask(mContext, dateDataList, listener);
         queryTask.execute();
+
+        return dateDataList;
     }
 
     private class DateDataQueryTask extends AsyncTask<Void, Void, List<DateData>> {

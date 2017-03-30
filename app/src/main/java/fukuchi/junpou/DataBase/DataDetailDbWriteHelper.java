@@ -93,6 +93,7 @@ public class DataDetailDbWriteHelper extends JunpouDbWriteHelperBase {
             } finally {
                 if (cursor != null) {
                     cursor.close();
+                    cursor = null;
                 }
             }
         }

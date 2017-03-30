@@ -14,4 +14,12 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="CheckBoxStyle" parent="Theme.AppCompat.Light">
+        <item name="colorControlNormal">@android:color/holo_blue_bright</item>
+        <item name="colorControlActivated">@android:color/holo_blue_dark</item>
+    </style>
+
+    <style name="MySpinnerAppTheme" parent="@style/Widget.AppCompat.Spinner">
+        <item name="android:background">@color/spinnerBackground</item>
+    </style>
 </resources>
