@@ -267,6 +267,5 @@
                 android:theme="@style/CheckBoxStyle"
                 android:visibility="gone" />
         </LinearLayout>
-
     </LinearLayout>
 </ScrollView>

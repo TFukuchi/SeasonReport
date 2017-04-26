@@ -23,13 +23,6 @@
         <dex dex="/home/fukuchi/Junpou/SeasonReport/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-multidex-1.0.0_4434de0d1dfd9a684b516b0a8368e59f089d4fd3/classes.dex" />
     </item>
     <item
-        jar="/home/fukuchi/Junpou/SeasonReport/app/libs/itext7-pdfa-7.0.2.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="960d18092224f95e0fcc9da8a1b2263b2ec10bd7">
-        <dex dex="/home/fukuchi/Junpou/SeasonReport/app/build/intermediates/transforms/dex/debug/folders/1000/2/itext7-pdfa-7.0.2_4fdc22726eb1bb5ae8ee3743e29997570a651508/classes.dex" />
-    </item>
-    <item
         jar="/home/fukuchi/Junpou/SeasonReport/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.2.1/jars/classes.jar"
         jumboMode="false"
         revision="21.1.2"
